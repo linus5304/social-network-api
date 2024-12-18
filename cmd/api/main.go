@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 
+	_ "github.com/lib/pq"
 	"github.com/linus5304/social/internal/db"
 	"github.com/linus5304/social/internal/env"
 	"github.com/linus5304/social/internal/store"
