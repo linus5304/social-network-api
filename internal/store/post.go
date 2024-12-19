@@ -4,6 +4,7 @@ import (
 	"context"
 	"database/sql"
 	"errors"
+	"fmt"
 
 	"github.com/lib/pq"
 )
@@ -18,10 +19,72 @@ type Post struct {
 	UpdatedAt string    `json:"updated_at"`
 	Version   int       `json:"version"`
 	Comments  []Comment `json:"comments"`
+	User      User      `json:"user"`
+}
+
+type PostWithMetadata struct {
+	Post
+	CommentsCount int `json:"comments_count"`
 }
 
 type PostStore struct {
 	db *sql.DB
+}
+
+func (s *PostStore) GetUserFeed(ctx context.Context, userId int64, fq PaginatedFeedQuery) ([]PostWithMetadata, error) {
+	fSearch := fmt.Sprintf("%%%s%%", fq.Search)
+	fmt.Printf("tags: %v", fq)
+
+	qeury := `
+		select 
+			p.id, p.user_id, p.title, p."content" , p.created_at ,p.updated_at , p."version", 
+			count(c.id) as comments_count, p.tags, u.username 
+		from posts p 
+		left join "comments" c on c.post_id  = p.id
+		left join users u on p.user_id = u.id 
+		join followers f on f.follower_id = p.user_id or p.user_id = $1
+		where 
+			f.user_id = $1 and 
+			(p.tags @> $5 or array_length($5, 1) = 0) and
+			(p.title ilike $4 or p.content ilike $4)
+		group by p.id, u.username 
+		order by p.created_at ` + fq.Sort + `
+		limit $2 offset $3
+	`
+
+	ctx, cancel := context.WithTimeout(ctx, QueryTimeOutDuration)
+	defer cancel()
+
+	rows, err := s.db.QueryContext(ctx, qeury, userId, fq.Limit, fq.OffSet, fSearch, pq.Array(fq.Tags))
+	if err != nil {
+		return nil, err
+	}
+
+	defer rows.Close()
+
+	var feed []PostWithMetadata
+	for rows.Next() {
+		var p PostWithMetadata
+		err := rows.Scan(
+			&p.ID,
+			&p.UserID,
+			&p.Title,
+			&p.Content,
+			&p.CreatedAt,
+			&p.UpdatedAt,
+			&p.Version,
+			&p.CommentsCount,
+			pq.Array(&p.Tags),
+			&p.User.Username,
+		)
+		if err != nil {
+			return nil, err
+		}
+
+		feed = append(feed, p)
+	}
+
+	return feed, nil
 }
 
 func (s *PostStore) Create(ctx context.Context, post *Post) error {
