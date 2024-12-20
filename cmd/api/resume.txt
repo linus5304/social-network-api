@@ -1,0 +1,43 @@
+LINUS PHINEHAS SUH BAYERE
+
+267-306-8387 • linusbayere@gmail.com • LinkedIn • GitHub • Portfolio
+SUMMARY
+Versatile Software Engineer with 4+ years of experience in full-stack development. Proficient in designing scalable, high-performance applications and optimizing systems. Strong problem-solving skills with expertise in algorithms, data structures, and system design, enabling the delivery of impactful, efficient solutions. Seeking opportunities to contribute to innovative, growth-oriented teams.
+TECHNICAL SKILLS
+Backend: JavaScript, TypeScript, Go, Python, Java, Spring Boot, Bash, Nest.js, Django
+Front-End: HTML, CSS, React.JS, Next.js, tailwind, GraphQL
+DevOps Tools: AWS, Docker, Kubernetes, Terraform, Git, GitLab, GitHub, Vercel, Digital Ocean
+Databases and OS: PostgreSQL, MySQL, MongoDB, Oracle, Linux, Windows
+PROFESSIONAL EXPERIENCE
+Software Engineer		     11/2023 - 08/2024
+National Financial Credit Bank (NFC Bank)
+Contributed to optimizing a high-performance Java microservice backend serving 100,000+ active mobile users and handling over 5 million daily transactions, ensuring seamless user experiences and robust system stability.
+Improved IT support workflows by developing a Next.js web app (with nextra) for documenting IT procedures, enhancing response times, service quality, and operational efficiency
+Streamlined Oracle Flexcube database operations by improving query performance and operational efficiencies, enabling faster, data-informed decision-making across the organization.
+Full Stack Developer	       06/2023 - 11/2023
+CloudOpex
+Developed and optimized Nest.js API endpoints for the Nimbus project, enhancing backend responsiveness and ensuring seamless integration with the frontend.
+Streamlined continuous integration and delivery workflows by leveraging GitHub Actions and AWS-based infrastructure. This approach reduced code-to-production lead times by over 60% and enabled multiple daily deployments.
+Deployed and managed AWS resources (RDS, ECS, and Docker) to improve system scalability, stability, and reliability.
+Software Engineer	       03/2022 - 06/2023
+Data Touch Analytics
+Designed and delivered a full-stack blood bank management system (Nest.js backend, Next.js frontend) for the Gyneco-Obstetric and Pediatric Hospital of Douala (HGOPED).
+Improved blood inventory retrieval speeds by 30% and boosted overall operational efficiency by 25%.
+Deployed and monitored the application using Docker, GitHub Actions, DigitalOcean, and Vercel.
+Software Engineer	     01/2021 - 03/2022
+WIZESTACK
+Developed frontend components for the Saint-Barth and UMJ platforms using React and Next.js, reducing page load times by 20% and enhancing user experience.
+Built and optimized backend microservices with TypeScript and Nest.js, improving system responsiveness by 30% and enabling seamless handling of 10,000+ daily reservations.
+Implemented WebSockets for real-time schedule updates in the UMJ platform, reducing synchronization delays by 40% and increasing staff scheduling accuracy by 25%.
+Software Engineer Intern	     06/2020 - 12/2020
+GROUPE SIA
+Integrated and extended Odoo’s modular ERP framework to align with specific customer requirements, demonstrating proficiency in Python and database management.
+Collaborated with senior developers to debug, optimize, and deploy solutions, gaining hands-on experience in Odoo’s architecture and real-world application development. 
+EDUCATION
+B.S. Computer Science	        10/2019 - 10/2022
+African Institute of Computer Science (AICS)	 
+CERTIFICATIONS
+Terraform Associate (003)			    10/2024
+CKA: Certified Kubernetes Administrator			    09/2024
+AWS Certified Solutions Architect	                       03/2024
+Graph Developer – Associate	    	    07/2022
