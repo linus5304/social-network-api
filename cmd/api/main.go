@@ -1,6 +1,8 @@
 package main
 
 import (
+	"time"
+
 	_ "github.com/lib/pq"
 	"github.com/linus5304/social/internal/db"
 	"github.com/linus5304/social/internal/env"
@@ -40,6 +42,9 @@ func main() {
 			maxIdleTime:  env.GetString("DB_MAX_IDLE_TIME", "15m"),
 		},
 		env: env.GetString("ENV", "development"),
+		mail: mailConfig{
+			exp: time.Hour * 24 * 3, // 3 days
+		},
 	}
 
 	// logger
