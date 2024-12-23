@@ -7,7 +7,9 @@ import (
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
+	"github.com/go-chi/cors"
 	"github.com/linus5304/social/docs"
+	"github.com/linus5304/social/internal/mailer"
 	"github.com/linus5304/social/internal/store"
 	httpSwagger "github.com/swaggo/http-swagger/v2"
 	"go.uber.org/zap"
@@ -17,18 +19,31 @@ type application struct {
 	config config
 	store  store.Storage
 	logger *zap.SugaredLogger
+	mailer mailer.Client
 }
 
 type config struct {
-	db     dbConfig
-	addr   string
-	env    string
-	apiURL string
-	mail   mailConfig
+	db          dbConfig
+	addr        string
+	env         string
+	apiURL      string
+	mail        mailConfig
+	frontendURL string
 }
 
 type mailConfig struct {
-	exp time.Duration
+	sendGrid  sendGridConfig
+	mailTrap  mailTrapConfig
+	fromEmail string
+	exp       time.Duration
+}
+
+type sendGridConfig struct {
+	apiKey string
+}
+
+type mailTrapConfig struct {
+	apiKey string
 }
 
 type dbConfig struct {
@@ -40,6 +55,15 @@ type dbConfig struct {
 
 func (app *application) mount() http.Handler {
 	r := chi.NewRouter()
+
+	r.Use(cors.Handler(cors.Options{
+		AllowedOrigins:   []string{"https://*", "http://*"},
+		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
+		AllowedHeaders:   []string{"Accept", "Authorization", "Content-Type", "X-CSRF-Token"},
+		ExposedHeaders:   []string{"Link"},
+		AllowCredentials: false,
+		MaxAge:           300,
+	}))
 
 	r.Use(middleware.RequestID)
 	r.Use(middleware.RealIP)
