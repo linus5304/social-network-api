@@ -22,8 +22,10 @@ type User struct {
 	Email     string   `json:"email"`
 	Password  password `json:"-"`
 	IsActive  bool     `json:"is_active"`
+	RoleId    int64    `json:"role_id"`
 	CreatedAt string   `json:"created_at"`
 	UpdatedAt string   `json:"updated_at"`
+	Role      Role     `json:"role"`
 }
 
 type UserWithToken struct {
@@ -57,13 +59,19 @@ type UserStore struct {
 
 func (s *UserStore) Create(ctx context.Context, tx *sql.Tx, user *User) error {
 	query := `
-		insert into users (username, password, email)
-		values ($1, $2, $3)
+		insert into users (username, password, email, role_id)
+		values ($1, $2, $3, (select id from roles where name = $4))
 		returning id, created_at
 	`
 	ctx, cancel := context.WithTimeout(ctx, QueryTimeOutDuration)
 	defer cancel()
-	err := tx.QueryRowContext(ctx, query, user.Username, user.Password.hash, user.Email).Scan(&user.ID, &user.CreatedAt)
+
+	role := user.Role.Name
+	if role == "" {
+		role = "user"
+	}
+
+	err := tx.QueryRowContext(ctx, query, user.Username, user.Password.hash, user.Email, role).Scan(&user.ID, &user.CreatedAt)
 	if err != nil {
 		switch {
 		case err.Error() == `pq: duplicate key value voilates unique constraint "users_email_key"`:
@@ -80,8 +88,10 @@ func (s *UserStore) Create(ctx context.Context, tx *sql.Tx, user *User) error {
 
 func (s *UserStore) GetById(ctx context.Context, userId int64) (*User, error) {
 	query := `
-		select id, username, email, password, created_at, updated_at from users
-		where id = $1 and is_active = true
+		select u.id, username, email, password, created_at, updated_at, r.id, r.name, r.level, r.description 
+		from users u
+		join roles r on u.role_id = r.id
+		where u.id = $1 and u.is_active = true
 	`
 
 	ctx, cancel := context.WithTimeout(ctx, QueryTimeOutDuration)
@@ -99,6 +109,10 @@ func (s *UserStore) GetById(ctx context.Context, userId int64) (*User, error) {
 		&user.Password.hash,
 		&user.CreatedAt,
 		&user.UpdatedAt,
+		&user.Role.ID,
+		&user.Role.Name,
+		&user.Role.Level,
+		&user.Role.Description,
 	)
 	if err != nil {
 		switch {
