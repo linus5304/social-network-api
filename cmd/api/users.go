@@ -55,15 +55,14 @@ type FollowUser struct {
 //	@Router			/users/{id}/follow [put]
 func (app *application) followUserHandler(w http.ResponseWriter, r *http.Request) {
 	followerUser := getUserFromContext(r)
-
-	// TODO: revert auth user id from ctx
-	var payload FollowUser
-	if err := app.readJSON(w, r, &payload); err != nil {
+	followedUserID, err := strconv.ParseInt(chi.URLParam(r, "id"), 10, 64)
+	if err != nil {
 		app.badRequestError(w, r, err)
 		return
 	}
+
 	ctx := r.Context()
-	if err := app.store.Followers.Follow(ctx, followerUser.ID, payload.UserId); err != nil {
+	if err := app.store.Followers.Follow(ctx, followerUser.ID, followedUserID); err != nil {
 		switch {
 		case errors.Is(err, store.ErrConflict):
 			app.conflictResponse(w, r, err)
@@ -93,16 +92,16 @@ func (app *application) followUserHandler(w http.ResponseWriter, r *http.Request
 //	@Security		ApiKeyAuth
 //	@Router			/users/{id}/unfollow [put]
 func (app *application) unFollowUserHandler(w http.ResponseWriter, r *http.Request) {
-	unfollowedUser := getUserFromContext(r)
+	followerUser := getUserFromContext(r)
 
-	// TODO: revert auth user id from ctx
-	var payload FollowUser
-	if err := app.readJSON(w, r, &payload); err != nil {
+	unfollowedUserID, err := strconv.ParseInt(chi.URLParam(r, "id"), 10, 64)
+	if err != nil {
 		app.badRequestError(w, r, err)
 		return
 	}
+
 	ctx := r.Context()
-	if err := app.store.Followers.UnFollow(ctx, unfollowedUser.ID, payload.UserId); err != nil {
+	if err := app.store.Followers.UnFollow(ctx, followerUser.ID, unfollowedUserID); err != nil {
 		app.internalServerError(w, r, err)
 		return
 	}
