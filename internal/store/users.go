@@ -88,7 +88,7 @@ func (s *UserStore) Create(ctx context.Context, tx *sql.Tx, user *User) error {
 
 func (s *UserStore) GetById(ctx context.Context, userId int64) (*User, error) {
 	query := `
-		select u.id, username, email, password, created_at, updated_at, r.id, r.name, r.level, r.description 
+		select u.id, u.username, u.email, u.password, u.created_at, u.updated_at, r.id, r.name, r.level, r.description 
 		from users u
 		join roles r on u.role_id = r.id
 		where u.id = $1 and u.is_active = true
