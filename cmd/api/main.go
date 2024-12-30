@@ -18,7 +18,7 @@ import (
 	"go.uber.org/zap"
 )
 
-const version = "0.0.1"
+const version = ""
 
 //	@title			Gopher social API
 //	@version		1.0
