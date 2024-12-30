@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.0](https://github.com/linus5304/social-network-api/compare/v1.0.0...v1.1.0) (2024-12-30)
+
+
+### Features
+
+* update api version automatically ([08b41ae](https://github.com/linus5304/social-network-api/commit/08b41ae7cc75fd6610c993a6ed60f65105dae440))
+
 ## 1.0.0 (2024-12-30)
 
 
