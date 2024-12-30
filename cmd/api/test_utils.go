@@ -7,6 +7,7 @@ import (
 
 	"github.com/go-chi/chi/v5"
 	"github.com/linus5304/social/internal/auth"
+	"github.com/linus5304/social/internal/ratelimiter"
 	"github.com/linus5304/social/internal/store"
 	"github.com/linus5304/social/internal/store/cache"
 	"go.uber.org/zap"
@@ -20,6 +21,7 @@ func newTestApplication(t *testing.T, cfg config) *application {
 	mockStore := store.NewMockStore()
 	mockCacheStore := cache.NewMockStore()
 	testAuth := &auth.TestAuthenticator{}
+	rateLimiter := ratelimiter.NewFixedWindowLimiter(cfg.rateLimiter.RequestPerTimeFrame, cfg.rateLimiter.TimeFrame)
 
 	return &application{
 		logger:        logger,
@@ -27,6 +29,7 @@ func newTestApplication(t *testing.T, cfg config) *application {
 		cacheStorage:  mockCacheStore,
 		authenticator: testAuth,
 		config:        cfg,
+		rateLimiter:   rateLimiter,
 	}
 }
 

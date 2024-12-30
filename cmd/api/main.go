@@ -10,6 +10,7 @@ import (
 	"github.com/linus5304/social/internal/db"
 	"github.com/linus5304/social/internal/env"
 	"github.com/linus5304/social/internal/mailer"
+	"github.com/linus5304/social/internal/ratelimiter"
 	"github.com/linus5304/social/internal/store"
 	"github.com/linus5304/social/internal/store/cache"
 	"go.uber.org/zap"
@@ -75,6 +76,11 @@ func main() {
 				iss:    "gophersocial",
 			},
 		},
+		rateLimiter: ratelimiter.Config{
+			RequestPerTimeFrame: env.GetInt("RATELIMITER_REQUESTS_COUNT", 20),
+			TimeFrame:           time.Second * 5,
+			Enabled:             env.GetBool("RATE_LIMITER_ENABLED", true),
+		},
 	}
 
 	// logger
@@ -103,6 +109,9 @@ func main() {
 		logger.Info("redis connectinon pool established")
 	}
 
+	// Rate limiter
+	rateLimiter := ratelimiter.NewFixedWindowLimiter(cfg.rateLimiter.RequestPerTimeFrame, cfg.rateLimiter.TimeFrame)
+
 	store := store.NewStorage(db)
 	cacheStorage := cache.NewRedisStorage(rdb)
 	// mailer := mailer.NewSendGrid(cfg.mail.sendGrid.apiKey, cfg.mail.fromEmail)
@@ -124,6 +133,7 @@ func main() {
 		logger:        logger,
 		mailer:        mailer,
 		authenticator: jwtAuthenticator,
+		rateLimiter:   rateLimiter,
 	}
 
 	logger.Fatal(app.run(app.mount()))
