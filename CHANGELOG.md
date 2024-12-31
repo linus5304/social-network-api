@@ -1,5 +1,22 @@
 # Changelog
 
+## [1.2.0](https://github.com/linus5304/social-network-api/compare/v1.1.0...v1.2.0) (2024-12-31)
+
+
+### Features
+
+* dockerfile ([78041fd](https://github.com/linus5304/social-network-api/commit/78041fdb6c05a77bc148b9bf8f8f32cb30294752))
+
+
+### Bug Fixes
+
+* update .gitignore + add loggers on main.go ([8a881ba](https://github.com/linus5304/social-network-api/commit/8a881ba3d7ea5b45ce5c0365fa7814390fbb47ec))
+
+
+### Performance Improvements
+
+* remove scratch to use alpine ([513c20c](https://github.com/linus5304/social-network-api/commit/513c20c4ef4c4e3499937796157f1ad2dfa1ff28))
+
 ## [1.1.0](https://github.com/linus5304/social-network-api/compare/v1.0.0...v1.1.0) (2024-12-30)
 
 
