@@ -2,7 +2,6 @@ package main
 
 import (
 	"expvar"
-	"log"
 	"runtime"
 	"time"
 
@@ -98,7 +97,7 @@ func main() {
 	)
 
 	if err != nil {
-		logger.Fatal(err)
+		logger.Fatal("Database connection failed: %v", err)
 	}
 
 	defer db.Close()
@@ -119,7 +118,7 @@ func main() {
 	// mailer := mailer.NewSendGrid(cfg.mail.sendGrid.apiKey, cfg.mail.fromEmail)
 	mailer, err := mailer.NewMailTrapClient(cfg.mail.mailTrap.apiKey, cfg.mail.fromEmail)
 	if err != nil {
-		log.Fatal(err)
+		logger.Fatal("Mailtrap connection failed: %v", err)
 	}
 
 	jwtAuthenticator := auth.NewJWTAuthenticator(
