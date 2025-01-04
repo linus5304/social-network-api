@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.1](https://github.com/linus5304/social-network-api/compare/v1.2.0...v1.2.1) (2024-12-31)
+
+
+### Bug Fixes
+
+* disaled redis ([edefa4f](https://github.com/linus5304/social-network-api/commit/edefa4fb6bb165767cca74ffa404b733d9ea8aac))
+
 ## [1.2.0](https://github.com/linus5304/social-network-api/compare/v1.1.0...v1.2.0) (2024-12-31)
 
 
