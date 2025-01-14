@@ -15,7 +15,7 @@ Explore and test the API endpoints using our interactive Swagger documentation:
 
 - User authentication with JWT
 - Post creation and management
-- User following system
+- User following and unfollowing system
 - Comment system
 - Real-time feed updates
 - Full text search capabilities
