@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.1](https://github.com/linus5304/social-network-api/compare/v1.3.0...v1.3.1) (2025-01-14)
+
+
+### Bug Fixes
+
+* update readme ([647f41e](https://github.com/linus5304/social-network-api/commit/647f41e8810bc0a5563a4f3ae68648e59c80b1fa))
+
 ## [1.3.0](https://github.com/linus5304/social-network-api/compare/v1.2.1...v1.3.0) (2025-01-04)
 
 
